@@ -7,6 +7,7 @@ const authMiddleware = require('../../auth-service/middleware/authMiddleware')
 router.get('/my-cart', authMiddleware, async(req, res)=> {
 
     const userId  = req.userId
+    const userEmail = req.email
     console.log('User ID is', userId)
     try {
 
@@ -27,7 +28,7 @@ router.get('/my-cart', authMiddleware, async(req, res)=> {
         return res.status(200).json({
             success: true,
             message: 'Cart items fetched successfully',
-            userId: cart.userId, cartItems: cart.cartItems, totalAmount: Math.round(total * 100) / 100, cartCount: itemCount
+            userId: cart.userId, cartItems: cart.cartItems, totalAmount: Math.round(total * 100) / 100, cartCount: itemCount, userEmail
         })
 
 

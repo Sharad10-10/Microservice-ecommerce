@@ -74,6 +74,100 @@ router.post('/api/create-order', async(req, res)=> {
     }
 
 
+})
+
+
+router.post('/create-from-payment', async(req, res) => {
+
+
+    try {
+        
+        const {products, totalAmount, stripeSessionId, paymentStatus, status, userId, customerEmail} = req.body
+
+        if(!customerEmail) {
+            return res.status(400).json({
+                success: false,
+                message: 'Failed! Customer email is required'
+            })
+        }
+
+        const existingOrder = await orderSchema.findOne({stripeSessionId})
+        if(existingOrder) {
+            return res.status(404).json({
+                success: false,
+                message: 'Order already exists for this payment session'
+            })
+        }
+
+        const order = new orderSchema({
+
+            products: products.map(item => ({
+                productId: item.productId,
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity
+            })),
+            totalAmount,
+            stripeSessionId,
+            paymentStatus,
+            status
+        })
+
+        await order.save()
+
+        return res.status(201).json({
+            success: true,
+            message: 'Order created successfully',
+            order
+        })
+
+
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Error creating order from payment',
+            error: error.message
+        })
+    }
+
+
+
+})
+
+
+router.get('session/:sessionId', async(req, res) => {
+
+    const { sessionId } = req.params
+
+    try {
+        
+        const order= await orderSchema.findOne({ stripeSessionId: sessionId })
+
+        if(!order) {
+            return res.status(404).json({
+                success: false,
+                message: 'Order not found'
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: 'Order retrieved successfully',
+            order
+
+        })
+
+
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to get order data',
+            error: error.message
+        })
+    }
+
 
 
 

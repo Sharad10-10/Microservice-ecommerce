@@ -5,6 +5,7 @@
     "express": "^5.2.1",
     "kafkajs": "^2.2.4",
     "mongoose": "^9.2.3",
-    "resend": "^6.9.3"
+    "resend": "^6.9.3",
+    "stripe": "^20.4.1"
   }
 }

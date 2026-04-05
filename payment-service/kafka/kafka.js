@@ -39,21 +39,23 @@ const connectKafka = async()=> {
         console.log('Transaction saved with status', paymentStatus)
         
 
-        await producer.send({
-            topic: 'payment-processed',
-            messages: {
-                value: JSON.stringify({
-                    orderId: orderData?._id,
-                    status: paymentStatus,
-                    amount: orderData?.totalAmount
-                })
-            }
-        })
-
     }
    })
 
 
 }
 
-module.exports = { connectKafka }
+const sendOrderEvent = async(orderData) => {
+    await producer.send({
+        topic: 'payment-processed',
+        messages: {
+            value: JSON.stringify({
+                orderId: orderData?._id,
+                status: paymentStatus,
+                amount: orderData?.totalAmount
+            })
+        }
+    })
+}
+
+module.exports = { connectKafka, sendOrderEvent }

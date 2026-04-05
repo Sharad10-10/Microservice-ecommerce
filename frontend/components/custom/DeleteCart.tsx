@@ -40,7 +40,7 @@ const DeleteCart = ({cartItem}: cartDataType) => {
   return (
  
         <div className='flex flex-col items-center justify-between'>
-            <p className='font-semibold'>${cartItem?.price}</p>
+            <p className='font-semibold'>${(cartItem?.price).toFixed(2)}</p>
             <p onClick={deleteItemsFromCart} className='flex gap-2 cursor-pointer hover:scale-105 transition-all duration-300'><Trash2 /> <span>Delete</span> </p>
         </div>
     

@@ -4,16 +4,12 @@ import fetchWithAuth from '../utils/fetchWithAuth'
 import { cookies } from 'next/headers'
 import QuantityChanger from '@/components/custom/QuantityChanger'
 import DeleteCart from '@/components/custom/DeleteCart'
+import ProceedToCheckOut from '@/components/custom/ProceedToCheckOut'
 
 
-interface cartDataType {
-  cartCount : number,
-  cartItems: [],
-  totalAmount: number,
-  userId: string
-}
 
-interface cartItemsType {
+
+interface CartItemsType {
 
     image: string,
     name: string,
@@ -61,9 +57,9 @@ const MyCart = async() => {
 
   return (
     
-  <div className='px-8 mb-16'>
+  <div className='px-8 mb-16 flex justify-around'>
 
-      <div className='mt-20 ml-8 max-w-210 border p-8 bg-gray-50/80'>
+      <div className='mt-20 max-w-210 w-full border border-black/20 p-8 bg-gray-50/80'>
         <div>
           <h1 className='text-3xl'>Shopping Cart</h1>
         </div>
@@ -75,7 +71,7 @@ const MyCart = async() => {
 
         
 
-       {cartData?.cartItems.map((cartItem:cartItemsType, index:string)=> {
+       {cartData?.cartItems.map((cartItem:CartItemsType, index:string)=> {
         return (
               <div key={index}>
                   <div key={index} className='mt-8 flex gap-6'>
@@ -113,10 +109,15 @@ const MyCart = async() => {
 
 
         <div className='flex justify-end mt-4'>
-          <p className='text-lg'>SubTotal ({cartData?.cartCount} items): <span className='font-semibold'>${cartData?.totalAmount}</span></p>
+          <p className='text-lg'>SubTotal ({cartData?.cartCount} {cartData?.cartCount > 1 ? 'items': 'item'}): <span className='font-semibold'>${(cartData?.totalAmount)}</span></p>
         </div>
 
       </div>
+
+
+      <div>
+            <ProceedToCheckOut cartData = {cartData}/>
+        </div>
 
      
 

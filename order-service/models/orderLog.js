@@ -15,6 +15,14 @@ const orderSchema = new mongoose.Schema({
         enum: ['PENDING', 'PAID', 'SHIPPED', 'CANCELLED'],
         default: 'PENDING'
     },
+    paymentStatus: {
+        type: String,
+        enum: ['PENDING', 'PAID', 'FAILED'],
+        default: 'PENDING'
+    },
+
+    stripeSessionId: String,
+    
     createdAt: {
         type: Date,
         default: Date.now

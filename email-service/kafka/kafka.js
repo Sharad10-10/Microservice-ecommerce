@@ -42,7 +42,7 @@ const connectKafka = async()=> {
           try {
             const eventData = JSON.parse(message.value.toString())
 
-            // console.log(`Email service received event ${topic} with data`, eventData)
+            console.log(`Email service received event ${topic} with data`, eventData)
         
             switch (topic) {
                 case 'order-created':
@@ -179,6 +179,8 @@ const sendPaymentStatusEmail = async(paymentData)=> {
 
 const sendUserCreatedEmail = async(userData)=> {
 
+
+    console.log('user data inside', userData)
 
     try{
 

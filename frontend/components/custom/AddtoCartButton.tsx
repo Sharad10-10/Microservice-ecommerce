@@ -1,7 +1,9 @@
 'use client'
 import fetchWithAuth from '@/app/utils/fetchWithAuth'
-import React from 'react'
+import React, { useState } from 'react'
 import { toast } from 'react-toastify'
+import { circleCheck } from 'lucide'
+
 
 
 interface FetchedProductProps{
@@ -16,6 +18,8 @@ interface FetchedProductProps{
 }
 
 const AddtoCartButton = ({fetchedProduct}: FetchedProductProps)=> {
+
+    const [addedToCart, setAddedToCart] = useState(false)
 
    const handleCartAdd = async()=> {
 
@@ -45,6 +49,7 @@ const AddtoCartButton = ({fetchedProduct}: FetchedProductProps)=> {
 
         const data = await response.json()
         console.log(data)
+        setAddedToCart(true)
         toast.success('Product added to your cart')
 
 
@@ -58,7 +63,7 @@ const AddtoCartButton = ({fetchedProduct}: FetchedProductProps)=> {
 
   return (
     <div>
-        <button onClick={handleCartAdd} className='border rounded-lg bg-black text-white px-6 py-2 cursor-pointer hover:scale-103 duration-300 transition-all'>Add to Cart</button>
+        {addedToCart ? <p className='px-6 py-2 text-lg flex items-center gap-1.5'> <span className='text-green-400 text-2xl'>✓⃝ </span>In cart </p> : <button onClick={handleCartAdd} className='border rounded-lg bg-black text-white px-6 py-2 cursor-pointer hover:scale-103 duration-300 transition-all'>Add To Cart</button>}
     </div>
   )
 }
