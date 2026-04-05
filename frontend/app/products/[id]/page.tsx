@@ -1,5 +1,6 @@
 import AddtoCartButton from '@/components/custom/AddtoCartButton'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 
@@ -40,7 +41,7 @@ const SingleProductPage = async({params}: {params: {id: string}}) => {
 
                 <div className='flex gap-4 mt-8'>
                     <AddtoCartButton fetchedProduct = {fetchedProduct} />
-                    <button className='border rounded-lg bg-black text-white px-6 py-2 cursor-pointer hover:scale-103 duration-300 transition-all'>Buy Now</button>
+                    <Link href={'/my-cart'}><button className='border rounded-lg bg-black text-white px-6 py-2 cursor-pointer hover:scale-103 duration-300 transition-all'>Buy Now</button></Link>
                 </div>
 
                 <div className='border-b  border-black/40 mt-4'/>

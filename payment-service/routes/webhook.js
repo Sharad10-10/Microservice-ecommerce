@@ -3,12 +3,17 @@ const router = express.Router()
 const dotenv = require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const sendOrderEvent = require('../kafka/kafka')
+const connectDb = require('../db/dbConfig')
+const CartModel = require('../../cart-service/models/cartSchema')
+
 
 
 router.post('/', express.raw({type: 'application/json'}), async(req, res) => {
 
     const sig = req.headers['stripe-signature']
     let event;
+    const { cartDB } = await connectDb()
+    const Cart = cartDB.model('cart', CartModel.cartSchema)
 
     try {
 
@@ -31,7 +36,16 @@ router.post('/', express.raw({type: 'application/json'}), async(req, res) => {
         case 'checkout.session.completed':
             const session = event.data.object
 
+            const userId = session.metadata.userId
+
+            console.log("user id", userId)
+       
+
+            const clearCart = await Cart.findOneAndUpdate({ userId }, {$set : {cartItems : [], totalAmount: 0}})
+            
+
             try {
+
                 const items = JSON.parse(session.metadata.items || '[]')
                 const total = parseFloat(session.metadata.total) || (session.amount_total / 100)
 
@@ -50,6 +64,8 @@ router.post('/', express.raw({type: 'application/json'}), async(req, res) => {
                     status: 'CONFIRMED'
                 }
 
+
+
                 const orderResponse = await fetch(`${process.env.ORDER_SERVICE_URL}/orders/create-from-payment`,
                     orderData
                 )
@@ -60,6 +76,8 @@ router.post('/', express.raw({type: 'application/json'}), async(req, res) => {
                         totalAmount: total
                     })
                 }
+
+            
 
             } catch (error) {
 

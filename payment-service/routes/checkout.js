@@ -12,6 +12,8 @@ router.post('/create-session', async(req, res)=>{
 
     const {customerEmail, cartItems, userId, totalAmount} = req.body
 
+    console.log('Received checkout request:', {customerEmail, cartItems, userId, totalAmount})
+
    try {
     if(!cartItems || cartItems.length === 0) {
         return res.status(400).json({
@@ -21,7 +23,7 @@ router.post('/create-session', async(req, res)=>{
     }
 
 
-    const calcluateTax = cartItems.reduce((sum, cartItem) => {
+    const calculateTax = cartItems.reduce((sum, cartItem) => {
 
         return sum + (((cartItem.price * 100) * cartItem.quantity )* 0.13)
 
@@ -63,15 +65,11 @@ router.post('/create-session', async(req, res)=>{
                 },
 
                 unit_amount : 
-                Math.round(calcluateTax)
+                Math.round(calculateTax)
              },
              quantity : 1
 
         }
-
-
-
-
 
 )
 

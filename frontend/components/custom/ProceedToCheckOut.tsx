@@ -59,6 +59,8 @@ const ProceedToCheckOut = ({cartData}: ProceedToCheckOutProps) => {
 
             if(data?.sessionUrl) {
                 window.location.href = data.sessionUrl
+
+                
             }
 
         } catch (error) {
@@ -89,7 +91,7 @@ const ProceedToCheckOut = ({cartData}: ProceedToCheckOutProps) => {
 
                             <div className='flex flex-col gap-2'>
                                 <p>${(cartData?.totalAmount)}</p>
-                                <p>${(shippingFee).toFixed(2)}</p>
+                                <p>${cartData?.totalAmount ? (shippingFee).toFixed(2) : '0.00'}</p>
                                 <p>${(calculateTax).toFixed(2)}</p>
                             </div>
 
@@ -105,7 +107,7 @@ const ProceedToCheckOut = ({cartData}: ProceedToCheckOutProps) => {
                             </div>
 
                             <div className='mt-8'>
-                                <p>{(cartData?.totalAmount + calculateTax + shippingFee).toFixed(2)}</p>
+                                <p>${cartData?.totalAmount ? (cartData?.totalAmount + calculateTax + shippingFee).toFixed(2): '0.00'}</p>
                             </div>
                         </div>
 
