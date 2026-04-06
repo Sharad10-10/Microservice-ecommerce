@@ -12,10 +12,11 @@ const app = express()
 const port = process.env.PORT;
 
 app.use(cors({origin: 'http://localhost:3000'}))
+app.use(express.json())
 connectDB()
 connectKafka()
 
-app.use('/api/create-order', orderRoutes)
+app.use('/api/orders', orderRoutes)
 
 app.listen(port, ()=> {
     console.log('Order service is running at http://localhost:',port)

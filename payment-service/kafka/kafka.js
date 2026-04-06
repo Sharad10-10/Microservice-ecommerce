@@ -7,10 +7,10 @@ const kafka = new Kafka({
     brokers: ['localhost:9092', 'localhost:9093', 'localhost:9094']
 })
 
-const connectKafka = async()=> {
+const producer = kafka.producer()
+const consumer = kafka.consumer({groupId: 'payment-service'})
 
-    const producer = kafka.producer()
-    const consumer = kafka.consumer({groupId: 'payment-service'})
+const connectKafka = async()=> {
 
     await producer.connect()
     await consumer.connect()
@@ -48,13 +48,13 @@ const connectKafka = async()=> {
 const sendOrderEvent = async(orderData) => {
     await producer.send({
         topic: 'payment-processed',
-        messages: {
+        messages: [{
             value: JSON.stringify({
                 orderId: orderData?._id,
-                status: paymentStatus,
+                status: orderData?.paymentStatus,
                 amount: orderData?.totalAmount
             })
-        }
+        }]
     })
 }
 

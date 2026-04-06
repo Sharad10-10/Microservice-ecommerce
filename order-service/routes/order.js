@@ -5,7 +5,7 @@ const axios = require('axios')
 const { sendOrderEvent } = require('../kafka/kafka')
 
 
-router.post('/api/create-order', async(req, res)=> {
+router.post('/create-order', async(req, res)=> {
 
     const { products, customerEmail } = req.body
 
@@ -81,8 +81,12 @@ router.post('/create-from-payment', async(req, res) => {
 
 
     try {
-        
-        const {products, totalAmount, stripeSessionId, paymentStatus, status, userId, customerEmail} = req.body
+        const orderData = req.body
+        console.log('Order data received', orderData)
+
+  
+
+        const { products, totalAmount, stripeSessionId, paymentStatus, status, userId, customerEmail } = orderData
 
         if(!customerEmail) {
             return res.status(400).json({
@@ -105,7 +109,7 @@ router.post('/create-from-payment', async(req, res) => {
                 productId: item.productId,
                 name: item.name,
                 price: item.price,
-                quantity: item.quantity
+                qty: item.qty
             })),
             totalAmount,
             stripeSessionId,
