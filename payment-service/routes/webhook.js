@@ -85,7 +85,8 @@ router.post('/', express.raw({type: 'application/json'}), async(req, res) => {
                 if(sendOrderEvent) {
                     await sendOrderEvent({
                         ...data,
-                        totalAmount: total
+                        totalAmount: total,
+                        customerEmail: data?.customerEmail || sessionMetadata?.customerEmail
                     })
                 }
 

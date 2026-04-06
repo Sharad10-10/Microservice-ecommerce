@@ -14,11 +14,13 @@ const kafka = new Kafka({
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+const producer = kafka.producer()
+const consumer = kafka.consumer({groupId: 'email-service'})
 
 const connectKafka = async()=> {
-    const producer = kafka.producer()
+    
     await producer.connect()
-    const consumer = kafka.consumer({groupId: 'email-service'})
+    
     await consumer.connect()
 
 
@@ -36,6 +38,13 @@ const connectKafka = async()=> {
         topic: 'user-created',
         fromBeginning: true
     })
+
+    await consumer.subscribe({
+        topic: 'payment-processed',
+        fromBeginning: true
+    })
+
+
 
     await consumer.run({
         eachMessage: async({topic, partition, message})=> {
@@ -125,12 +134,16 @@ const sendOrderConfirmationEmail = async(orderData)=> {
 }
 const sendPaymentStatusEmail = async(paymentData)=> {
 
+    console.log('data for payment',paymentData)
+
     try {
+
+        const paymentHTML = paymentData?.products?.map(product => `<p>${product.name} - $${product.price} x ${product.qty}</p>`).join('') || ''
         
         const recipient = paymentData?.customerEmail || 'default@example.com'
         const subject = `Payment Update - Order #${paymentData?.orderId}`
-        const status = paymentData?.status === 'SUCCESS' ? 'Payment Successful' : 'Payment Failed'
-        const html = `<p>Thank you for your payment! Your payment has been processed.</p><p>Total Amount: <strong>$${paymentData?.totalAmount}</strong></p>`
+        const status = paymentData?.status === 'PAID' || paymentData?.status === 'SUCCESS' ? 'Payment Successful' : 'Payment Failed'
+        const html = `<p>Thank you for your payment! Your payment has been processed.</p><p>Total Amount: <strong>$${paymentData?.amount}</strong></p><p>Your order id is: ${paymentData?.orderId}.</p><p>Payment status: ${status}</p><p>${paymentHTML}</p><p>Your order will take 5-7 business days to arrive.</p>`
 
         let emailStatus = 'SENT'
 
@@ -153,6 +166,7 @@ const sendPaymentStatusEmail = async(paymentData)=> {
             body: html,
             status: emailStatus,
             eventType: 'payment-processed',
+            customerEmail: recipient
         })
 
         await emailLog.save()
@@ -160,13 +174,13 @@ const sendPaymentStatusEmail = async(paymentData)=> {
         if(emailStatus === 'SENT') {
             await producer.send({
                 topic: 'email-successful',
-                messages: {
+                messages: [{
                     value: JSON.stringify({
                         orderId: paymentData?.orderId,
                         eventType: 'payment-processed',
                         recipient
                     })
-                }
+                }]
             })
         }
         

@@ -46,13 +46,17 @@ const connectKafka = async()=> {
 }
 
 const sendOrderEvent = async(orderData) => {
+
+    console.log('Orderdata in paymnet service', orderData)
     await producer.send({
         topic: 'payment-processed',
         messages: [{
             value: JSON.stringify({
-                orderId: orderData?._id,
-                status: orderData?.paymentStatus,
-                amount: orderData?.totalAmount
+                orderId: orderData?.order?._id,
+                status: orderData?.order?.paymentStatus,
+                amount: orderData?.totalAmount,
+                customerEmail : orderData?.customerEmail,
+                products : orderData?.order?.products || []
             })
         }]
     })
