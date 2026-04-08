@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
+import AddtoCartButton from './AddtoCartButton'
 
 const RecentProduct = async() => {
 
@@ -17,6 +18,8 @@ const RecentProduct = async() => {
    
 
     const slicedProducts = fetchedProducts.slice(0, 4)
+
+    console.log(slicedProducts)
 
   
 
@@ -53,7 +56,7 @@ const RecentProduct = async() => {
                     </div>
                     <p className='text-lg font-semibold pl-3 pt-2'>${product?.price}</p>
                     <div className='flex justify-center px-2 pt-1'>
-                        <button className='border w-full rounded-lg bg-black text-white px-4 py-2 cursor-pointer hover:scale-103 duration-300 transition-all'>Add to Cart</button>
+                        <AddtoCartButton fetchedProduct={slicedProducts}/>
                     </div>
                 </div>
             )

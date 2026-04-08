@@ -8,6 +8,7 @@ const orderItemSchema = new mongoose.Schema({
 }, {_id: false})
 
 const orderSchema = new mongoose.Schema({
+    userId: {type: String, required: true},
     products: [orderItemSchema],
     totalAmount: Number,
     status: {

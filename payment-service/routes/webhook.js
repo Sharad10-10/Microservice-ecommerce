@@ -62,7 +62,8 @@ router.post('/', express.raw({type: 'application/json'}), async(req, res) => {
                     totalAmount: total,
                     stripeSessionId: session.id,
                     paymentStatus: 'PAID',
-                    status: 'PAID'
+                    status: 'PAID',
+                    userId: userId
                 }
 
                 console.log('Check for order data', orderData)
@@ -90,7 +91,7 @@ router.post('/', express.raw({type: 'application/json'}), async(req, res) => {
                     })
                 }
 
-                const clearCart = await Cart.findOneAndUpdate({ userId }, {$set : {cartItems : [], totalAmount: 0}})
+                const clearCart = await Cart.findOneAndUpdate({ userId }, {$set : {cartItems : [], totalAmount: 0}},{returnDocument: 'after'})
             
 
             } catch (error) {

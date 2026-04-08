@@ -3,6 +3,7 @@ const router = express.Router();
 const orderSchema = require('../models/orderLog')
 const axios = require('axios')
 const { sendOrderEvent } = require('../kafka/kafka')
+const  authMiddleware  = require('../../auth-service/middleware/authMiddleware')
 
 
 router.post('/create-order', async(req, res)=> {
@@ -114,7 +115,8 @@ router.post('/create-from-payment', async(req, res) => {
             totalAmount,
             stripeSessionId,
             paymentStatus,
-            status
+            status,
+            userId
         })
 
         await order.save()
@@ -136,6 +138,44 @@ router.post('/create-from-payment', async(req, res) => {
         })
     }
 
+
+
+})
+
+
+router.get('/get-orders', authMiddleware, async(req, res)=> {
+
+    const userId  = req.userId
+    const userEmail = req.email
+
+   try {
+
+        const orders = await orderSchema.find({ userId })
+
+        if(!orders || orders.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'No orders found for this user'
+            })
+
+        }
+
+    return res.status(200).json({
+        success: true,
+        message: 'Orders retrieved successfully',
+        orders,
+        userEmail
+        
+    })
+    
+   } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to get orders',
+            error: error.message
+        })
+   }
+    
 
 
 })

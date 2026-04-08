@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { User } from 'lucide-react'
+import Link from 'next/link'
 
 interface DropdownProps {
     userName: string
@@ -24,7 +25,7 @@ const Dropdown = ({userName} : DropdownProps) => {
             <DropdownMenuContent>
             
                
-                <DropdownMenuItem className={'text-[16px] font-medium cursor-pointer'}>My Orders</DropdownMenuItem>
+                <Link href={'/my-orders'}><DropdownMenuItem className={'text-[16px] font-medium cursor-pointer'}>My Orders</DropdownMenuItem></Link>
                
                
             </DropdownMenuContent>
