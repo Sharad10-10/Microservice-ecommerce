@@ -8,7 +8,7 @@ router.get('/my-cart', authMiddleware, async(req, res)=> {
 
     const userId  = req.userId
     const userEmail = req.email
-    console.log('User ID is', userId)
+  
     try {
 
         const cart = await cartSchema.findOne({ userId })
@@ -47,14 +47,7 @@ router.post('/add', authMiddleware, async(req, res)=> {
    
     const userId  = req.userId 
 
-    console.log("userId is", userId)
-
-
-
-    const {productId, name, price, quantity, image} = req.body
-
-    console.log(req.body)
-
+    const { productId, name, price, quantity, image } = req.body
 
     try {
 

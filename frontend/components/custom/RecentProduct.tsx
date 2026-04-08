@@ -19,17 +19,17 @@ const RecentProduct = async() => {
 
     const slicedProducts = fetchedProducts.slice(0, 4)
 
-    console.log(slicedProducts)
 
   
 
 
     interface ProductType {
-        id:string;
+        _id:string;
         name: string;
         description: string;
         price: number;
-        image: string
+        image: string,
+        stock: number
     }
     
 
@@ -55,8 +55,8 @@ const RecentProduct = async() => {
                         <h2 className='text-sm text-black/70'>{product?.description}</h2>
                     </div>
                     <p className='text-lg font-semibold pl-3 pt-2'>${product?.price}</p>
-                    <div className='flex justify-center px-2 pt-1'>
-                        <AddtoCartButton fetchedProduct={slicedProducts}/>
+                    <div className='flex  px-2 pt-1'>
+                        <AddtoCartButton fetchedProduct={product}/>
                     </div>
                 </div>
             )

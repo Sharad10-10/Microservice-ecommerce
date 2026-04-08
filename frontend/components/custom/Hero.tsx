@@ -14,30 +14,34 @@ import { ArrowRight } from 'lucide-react';
 const Hero = () => {
 
   const slidesData = [
+
     {
       id: 1,
-      tag: "New Arrivals",
-      heading: "Step Into the\nNew Season",
-      subtext: "Fresh styles, bold looks. Discover our latest women's collection handpicked for you.",
-      image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1400&q=80",
-     
-    },
-    {
-      id: 2,
       tag: "Summer Sale — Up to 50% Off",
       heading: "Big Deals,\nBigger Style",
       subtext: "Limited time offers on hundreds of items. Don't miss out on this season's best picks.",
       image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80",
      
     },
+
     {
-      id: 3,
+      id: 2,
       tag: "Trending Now",
       heading: "Dress to\nImpress",
       subtext: "From casual outings to special occasions — find the perfect outfit for every moment.",
       image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1400&q=80",
       
     },
+    
+    {
+      id: 3,
+      tag: "New Arrivals",
+      heading: "Step Into the\nNew Season",
+      subtext: "Fresh styles, bold looks. Discover our latest women's collection handpicked for you.",
+      image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1400&q=80",
+     
+    },
+
     {
       id: 4,
       tag: "Members Get More",

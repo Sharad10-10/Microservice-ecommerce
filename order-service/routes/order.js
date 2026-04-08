@@ -150,7 +150,7 @@ router.get('/get-orders', authMiddleware, async(req, res)=> {
 
    try {
 
-        const orders = await orderSchema.find({ userId })
+        const orders = await orderSchema.find({ userId }).sort({  createdAt: -1 })
 
         if(!orders || orders.length === 0) {
             return res.status(404).json({

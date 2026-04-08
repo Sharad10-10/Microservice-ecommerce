@@ -19,6 +19,7 @@ interface FetchedProductProps{
 
 const AddtoCartButton = ({fetchedProduct}: FetchedProductProps)=> {
 
+
     const [addedToCart, setAddedToCart] = useState(false)
 
    const handleCartAdd = async()=> {

@@ -57,7 +57,7 @@ const MyCart = async() => {
 
   return (
     
-  <div className='px-8 mb-16 flex justify-around'>
+  <div className='px-8 mb-16 flex justify-around gap-x-4 flex-wrap md:flex-nowrap'>
 
       <div className='mt-20 max-w-210 w-full border border-black/20 p-8 bg-gray-50/80'>
         <div>

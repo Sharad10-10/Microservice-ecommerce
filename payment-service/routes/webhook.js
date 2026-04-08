@@ -38,12 +38,8 @@ router.post('/', express.raw({type: 'application/json'}), async(req, res) => {
 
             const userId = session.metadata.userId
 
-            console.log("user id", userId)
-
             const sessionMetadata  = session.metadata
-            console.log('Metadata is:', sessionMetadata)
-       
-            
+                   
 
             try {
 
@@ -66,9 +62,6 @@ router.post('/', express.raw({type: 'application/json'}), async(req, res) => {
                     userId: userId
                 }
 
-                console.log('Check for order data', orderData)
-
-
 
                 const orderResponse = await fetch(`${process.env.ORDER_SERVICE_URL}/api/orders/create-from-payment`,
                     {
@@ -81,7 +74,6 @@ router.post('/', express.raw({type: 'application/json'}), async(req, res) => {
                 )
 
                 const data = await orderResponse.json()
-                console.log('Order response data is:', data)
 
                 if(sendOrderEvent) {
                     await sendOrderEvent({

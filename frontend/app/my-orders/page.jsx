@@ -37,13 +37,13 @@ const MyOrdersPage = async() => {
 
   const fetchedOrders = await getMyOrders()
   
-  console.log("fetched orders are:", fetchedOrders)
+
 
 
 
 
   return (
-    <div className='flex justify-center mt-12'>
+    <div className='flex justify-center mt-12 px-4'>
 
       <div className='max-w-240 w-full'>
 
@@ -54,17 +54,17 @@ const MyOrdersPage = async() => {
 
       {fetchedOrders?.orders?.map((order, index)=> {
         return (
-          <div key={index} className='w-full mt-8'>
+          <div key={index} className='w-full mt-8 mb-8'>
 
-                  <div className='flex justify-between items-center px-4 border bg-[#F1F2F2] rounded-t-lg py-1'>
-                      <div className='flex items-center gap-x-16'>
-                          <p className='flex flex-col'>Order Placed: <span>{(order?.createdAt).slice(0,10)}</span></p>
-                          <p className='flex flex-col'>Total: <span>${(order?.totalAmount).toFixed(2)}</span></p>
-                          <p className='flex flex-col'>Ship to: <span>{fetchedOrders?.userEmail}</span></p>
+                  <div className='flex justify-between items-center px-4 border bg-[#F1F2F2] rounded-t-lg py-1 text-sm md:text-[16px] gap-x-2 sm:gap-x-0'>
+                      <div className='flex items-center sm:gap-x-16 gap-x-2'>
+                          <p className='flex flex-col flex-wrap'>Order Placed: <span>{(order?.createdAt).slice(0,10)}</span></p>
+                          <p className='flex flex-col flex-wrap'>Total: <span>${(order?.totalAmount).toFixed(2)}</span></p>
+                          <p className='flex flex-col flex-wrap'>Ship to: <span className='text-sm text-black/70'>{fetchedOrders?.userEmail}</span></p>
                       </div>
 
                       <div>
-                          <p>Order: <span className='text-[12px] text-black/70'>{order?._id}</span></p>
+                          <p className='flex flex-col flex-wrap'>Order: <span className='text-[12px] text-black/70'>{order?._id}</span></p>
                       </div>
                   </div>
 
