@@ -14,7 +14,7 @@ The project follows below given microservice architecture:
 5. Payment service:- Handles user payment for order.
 6. Product serivce:- Manages product information.
 
-Run this project in your system? It can be handy but hang tight! I will guide you through this. I've got you!
+Run this project in your system? I will guide you through this.
 1. First download the source code or clone the project from my repository.
 2. Then open terminal and type npm install which will install necessary dependencies for the project.
 3. Then go to each services for example, cd auth-service, cd order-service and then npm install, it will install necessary dependencies for particular service to run the project.
